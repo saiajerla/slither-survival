@@ -78,7 +78,7 @@ def main():
 
         clock.tick(15)
     pygame.quit()
-    quit()
+    exit()
 
 def foodLocations(snakex,snakey):
     foodWidth = 10
