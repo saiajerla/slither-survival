@@ -80,12 +80,6 @@ def main():
     pygame.quit()
     exit()
 
-def foodLocations(snakex,snakey):
-    foodWidth = 10
-    foodx = random.randint(foodWidth*(foodWidth//2), WIDTH - foodWidth*(foodWidth//2))
-    foody = random.randint(foodWidth*(foodWidth//2), HEIGHT - foodWidth*(foodWidth//2))
-    return foodx,foody
-
 def handlingEvents(xDirection, yDirection):
     snakeWidth = 10
     events = pygame.event.get()
@@ -111,30 +105,11 @@ def handlingEvents(xDirection, yDirection):
                 exit()
 
     return xDirection, yDirection
-                
-def exitMessage(window, value):
-    pygame.font.init()
-    fontObj = pygame.font.SysFont("", 40) #displaying the exit messages
-    
-    text1 = fontObj.render("GAME OVER!", True, (255, 255, 255))
-    text2 = fontObj.render("Final score: "+str(value), True, (255, 255, 255))
-    text3 = fontObj.render("Thanks for playing!", True, (255, 255, 255))
-    
-    window.blit(text1,(WIDTH//4,HEIGHT//4))
-    window.blit(text2,(WIDTH//4,HEIGHT//3))
-    window.blit(text3,(WIDTH//4,HEIGHT//2))
             
 def snake(sbody, window):
     snakeWidth = 10
     for i in sbody: #displaying the body of the snake
         pygame.draw.rect(window, (0, 255, 0), [i[0], i[1], snakeWidth, snakeWidth])
-
-def score(window,value):
-    pygame.font.init() #displaying the score on top left corner 
-    fontObj = pygame.font.SysFont("Score: ", 40) #updating score values each time
-    text = fontObj.render("Score: " + str(value), True, (255, 255, 255))
-
-    window.blit(text,(10,10))
 
 def bodySnake(snakeLength,slist,window):
     #getting the locations of the body of the snake
@@ -156,6 +131,31 @@ def bodySnake(snakeLength,slist,window):
         return 0
         
     snake(snakeLocations,window) #drawing the snake
+
+def foodLocations(snakex,snakey):
+    foodWidth = 10
+    foodx = random.randint(foodWidth*(foodWidth//2), WIDTH - foodWidth*(foodWidth//2))
+    foody = random.randint(foodWidth*(foodWidth//2), HEIGHT - foodWidth*(foodWidth//2))
+    return foodx,foody
+
+def exitMessage(window, value):
+    pygame.font.init()
+    fontObj = pygame.font.SysFont("", 40) #displaying the exit messages
+    
+    text1 = fontObj.render("GAME OVER!", True, (255, 255, 255))
+    text2 = fontObj.render("Final score: "+str(value), True, (255, 255, 255))
+    text3 = fontObj.render("Thanks for playing!", True, (255, 255, 255))
+    
+    window.blit(text1,(WIDTH//4,HEIGHT//4))
+    window.blit(text2,(WIDTH//4,HEIGHT//3))
+    window.blit(text3,(WIDTH//4,HEIGHT//2))
+
+def score(window,value):
+    pygame.font.init() #displaying the score on top left corner 
+    fontObj = pygame.font.SysFont("Score: ", 40) #updating score values each time
+    text = fontObj.render("Score: " + str(value), True, (255, 255, 255))
+
+    window.blit(text,(10,10))
 
 def introMessage(window):
     pygame.font.init()
