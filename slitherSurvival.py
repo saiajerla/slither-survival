@@ -190,6 +190,4 @@ def introMessage(window):
         if entered == "continue":
             break
     
-    #time.sleep(20)
-    
 main()
