@@ -15,11 +15,12 @@ def main():
 
     #displaying instructions
     introMessage(window)
-    
+
+    #dimensions for the objects
     snakeWidth = 10
     foodWidth = 10
     
-    #Getting a random location for the snake to start at
+    #Starting the snake in the middle of the board
     snakex = WIDTH // 2
     snakey = HEIGHT // 2
 
@@ -40,7 +41,7 @@ def main():
         #getting the indices depending on the key pressed
         xDirection, yDirection = handlingEvents(xDirection, yDirection)
 
-        #moving the snake 
+        #moving the snake in the direction of the pressed key
         snakex = snakex + xDirection
         snakey = snakey + yDirection
         slist.append([snakex,snakey])
@@ -56,18 +57,18 @@ def main():
         #getting the positions required for the length of snake
         if snakeLength > 0:
             val = bodySnake(snakeLength,slist,window)
-            if val == 0:
+            if val == 0: #Handling the condition of the snake running into its own body
                 exitMessage(window,snakeLength)
                 pygame.display.update()
                 time.sleep(2)
                 break
         else:
-            pygame.draw.rect(window, (0, 255, 0), [snakex, snakey, snakeWidth, snakeWidth])
-
+            pygame.draw.rect(window, (0, 255, 0), [snakex, snakey, snakeWidth, snakeWidth]) #drawing the initial snake icon
+            
         #drawing the food icon
         pygame.draw.circle(window, (255,0,0), (foodx,foody), foodWidth/2)
 
-        #getting new location of food if the snake ate food
+        #getting new location of food if the snake ate food and increasing snake's length
         if (foodx-foodWidth <= snakex <= foodx+foodWidth and foody-foodWidth <= snakey <= foody+foodWidth):
              foodx, foody = foodLocations(snakex,snakey)
              snakeLength = snakeLength + 1
@@ -77,10 +78,12 @@ def main():
         pygame.display.update()
 
         clock.tick(15)
+        
     pygame.quit()
     exit()
 
-def handlingEvents(xDirection, yDirection):
+#This function handles the keys pressed and moves the snake in that specific direction
+def handlingEvents(xDirection, yDirection): 
     snakeWidth = 10
     events = pygame.event.get()
     for event in events:
@@ -101,16 +104,20 @@ def handlingEvents(xDirection, yDirection):
                 xDirection = 0
             elif event.key == pygame.K_RETURN:
                 return "continue"
-            elif event.key == pygame.K_ESCAPE:
+            elif event.key == pygame.K_ESCAPE: #exiting the game if "esc" is pressed
                 exit()
 
     return xDirection, yDirection
-            
+
+
+#Using all the locations of the snake's body, this function displays the snake
 def snake(sbody, window):
     snakeWidth = 10
     for i in sbody: #displaying the body of the snake
         pygame.draw.rect(window, (0, 255, 0), [i[0], i[1], snakeWidth, snakeWidth])
+        
 
+#This function choses the body of the snake from all locations using its length and displays it
 def bodySnake(snakeLength,slist,window):
     #getting the locations of the body of the snake
     snakeLocations = [] 
@@ -132,13 +139,13 @@ def bodySnake(snakeLength,slist,window):
         
     snake(snakeLocations,window) #drawing the snake
 
-def foodLocations(snakex,snakey):
+def foodLocations(snakex,snakey): #getting random locations of the food
     foodWidth = 10
     foodx = random.randint(foodWidth*(foodWidth//2), WIDTH - foodWidth*(foodWidth//2))
     foody = random.randint(foodWidth*(foodWidth//2), HEIGHT - foodWidth*(foodWidth//2))
     return foodx,foody
 
-def exitMessage(window, value):
+def exitMessage(window, value): #this function displays the game over messages
     pygame.font.init()
     fontObj = pygame.font.SysFont("", 40) #displaying the exit messages
     
@@ -159,7 +166,7 @@ def score(window,value):
 
 def introMessage(window):
     pygame.font.init()
-    fontObj = pygame.font.SysFont("", 30)
+    fontObj = pygame.font.SysFont("", 30) #creating font objects
     fontObj2 = pygame.font.SysFont("", 20)
 
     textMain = ["Welcome to the Slither Survival Game!", "Instructions:"]
@@ -185,7 +192,7 @@ def introMessage(window):
     window.blit(pygame.transform.scale(picture, (200, 200)), (WIDTH//2,HEIGHT//2))
     pygame.display.update()
     
-    while True:
+    while True: #waits for the player to press enter to proceed
         entered = handlingEvents(0,0)
         if entered == "continue":
             break
